@@ -5,6 +5,8 @@ from .serializers import PostSerializer
 from rest_framework import permissions
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.throttling import UserRateThrottle
+
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -19,6 +21,9 @@ class PostViewSet(viewsets.ModelViewSet):
 
     # pagination
     pagination_class = PageNumberPagination
+
+    # Rate Limiting
+    throttle_classes = [UserRateThrottle]
 
     def perform_create(self, serializer):
         # Set the author of the post to the current authenticated user
