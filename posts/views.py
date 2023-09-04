@@ -4,6 +4,7 @@ from .models import Post
 from .serializers import PostSerializer
 from rest_framework import permissions
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.pagination import PageNumberPagination
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -15,7 +16,10 @@ class PostViewSet(viewsets.ModelViewSet):
         'body': ['icontains'],
         'author__username': ['exact'],
     }
-    
+
+    # pagination
+    pagination_class = PageNumberPagination
+
     def perform_create(self, serializer):
         # Set the author of the post to the current authenticated user
         serializer.save(author=self.request.user)
