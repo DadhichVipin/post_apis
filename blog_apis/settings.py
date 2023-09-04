@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_filters',
+    'rest_framework.authtoken',
     'posts',
 ]
 
@@ -128,11 +129,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',  # Optional for web browser sessions
+        'rest_framework.authentication.TokenAuthentication',  # Recommended for API authentication
+    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,  # Set the number of items per page as desired.
+    'PAGE_SIZE': 5,  # Set the number of items per page as desired.
     # Rate Limiting
     'DEFAULT_THROTTLE_RATES': {
-        'user': '100/day',
+        'user': '10/day',
     },
-
 }
